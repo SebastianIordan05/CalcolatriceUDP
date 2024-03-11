@@ -11,11 +11,11 @@ import java.io.Serializable;
  * @author seba2
  */
 public class Numeri implements Serializable {
-    private final int lhs;
-    private final int rhs;
+    private final double lhs;
+    private final double rhs;
     private final char sign;
 
-    public Numeri(int lhs, int rhs, char sign) {
+    public Numeri(double lhs, double rhs, char sign) {
         this.lhs = lhs;
         this.rhs = rhs;
         this.sign = sign;
@@ -25,11 +25,11 @@ public class Numeri implements Serializable {
         return sign;
     }
 
-    public int getLhs() {
+    public double getLhs() {
         return lhs;
     }
 
-    public int getRhs() {
+    public double getRhs() {
         return rhs;
     }
 
