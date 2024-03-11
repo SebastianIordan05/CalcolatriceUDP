@@ -19,7 +19,9 @@ public class Server {
 
     public static void main(String[] args) {
         int port = 9980;
-        final Scanner sc = new Scanner(System.in);
+        int result;
+        //final Scanner sc = new Scanner(System.in);
+        
         try (final DatagramSocket socket = new DatagramSocket(port)) {
             System.out.println("Listening...");
 
@@ -29,12 +31,23 @@ public class Server {
 
             final Numeri read = (Numeri) new ObjectInputStream(new ByteArrayInputStream(packet.getData())).readObject();
             
-            if (read.getLhs() == read.getRhs()) 
+//            System.out.println(read.toString());
+            
+            if (read.getLhs() == read.getRhs()) {
                 System.out.println(read.getLhs() + " = " + read.getRhs());
-            else if (read.getLhs() > read.getRhs())
+            } else if (read.getLhs() > read.getRhs()) {
                 System.out.println(read.getLhs() + " > " + read.getRhs());
-            else if (read.getLhs() < read.getRhs())
+            } else if (read.getLhs() < read.getRhs()) {
                 System.out.println(read.getLhs() + " < " + read.getRhs());
+            }
+            
+            if (read.getSign() == '+') {
+                result = read.getLhs() + read.getRhs();
+                System.out.println(read.getLhs() + " + " + read.getRhs() + " = " + result);
+            } else if (read.getSign() == '-') {
+                result = read.getLhs() - read.getRhs();
+                System.out.println(read.getLhs() + " - " + read.getRhs() + " = " + result);
+            }
             
         } catch (final SocketException e) {
         } catch (final IOException | ClassNotFoundException e) {

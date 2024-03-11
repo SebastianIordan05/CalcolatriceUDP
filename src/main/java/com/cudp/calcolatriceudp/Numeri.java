@@ -11,12 +11,18 @@ import java.io.Serializable;
  * @author seba2
  */
 public class Numeri implements Serializable {
-    private int lhs;
-    private int rhs;
+    private final int lhs;
+    private final int rhs;
+    private final char sign;
 
-    public Numeri(int lhs, int rhs) {
+    public Numeri(int lhs, int rhs, char sign) {
         this.lhs = lhs;
         this.rhs = rhs;
+        this.sign = sign;
+    }
+    
+    public char getSign() {
+        return sign;
     }
 
     public int getLhs() {
@@ -26,6 +32,9 @@ public class Numeri implements Serializable {
     public int getRhs() {
         return rhs;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Numeri{" + "lhs=" + lhs + ", rhs=" + rhs + ", sign=" + sign + '}';
+    }
 }
