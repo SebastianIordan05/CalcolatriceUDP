@@ -13,7 +13,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.Scanner;
 
 /**
@@ -27,6 +26,7 @@ public class Client {
 
         int num1, num2;
         char sign;
+        final DatagramSocket socket = new DatagramSocket();
 
         try {
 
@@ -40,30 +40,33 @@ public class Client {
                 System.out.print("num2: ");
                 num2 = sc.nextInt();
 
-                DatagramSocket socket = new DatagramSocket();
                 final Numeri data = new Numeri(num1, num2, sign);
 
-                final ByteArrayOutputStream outstream = new ByteArrayOutputStream();
-                new ObjectOutputStream(outstream).writeObject(data);
-
-                final byte[] sendBuffer = outstream.toByteArray();
-                final DatagramPacket packet = new DatagramPacket(sendBuffer, sendBuffer.length, InetAddress.getLocalHost(), 9980);
-                socket.send(packet);
-
-                byte[] receiveData = new byte[2048];
-                DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-                socket.receive(receivePacket);
-
-                ByteArrayInputStream inputStream = new ByteArrayInputStream(receivePacket.getData());
-                ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-                String result = (String) objectInputStream.readObject();
-
-                System.out.println(result);
+                send(socket, data);
+                System.out.println(receive(socket));
             }
-
         } catch (SocketException e) {
-        } catch (UnknownHostException e) {
-        } catch (IOException e) {
         }
+    }
+
+    private static void send(DatagramSocket socket, Numeri data) throws IOException {
+        final ByteArrayOutputStream outstream = new ByteArrayOutputStream();
+        new ObjectOutputStream(outstream).writeObject(data);
+
+        final byte[] sendBuffer = outstream.toByteArray();
+        final DatagramPacket packet = new DatagramPacket(sendBuffer, sendBuffer.length, InetAddress.getLocalHost(), 9980);
+        socket.send(packet);
+    }
+
+    private static String receive(DatagramSocket socket) throws IOException, ClassNotFoundException {
+        byte[] receiveData = new byte[2048];
+        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+        socket.receive(receivePacket);
+
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(receivePacket.getData());
+        ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+        String result = (String) objectInputStream.readObject();
+
+        return result;
     }
 }

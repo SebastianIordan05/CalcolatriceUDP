@@ -66,17 +66,8 @@ public class Server {
                         throw new IllegalArgumentException("Wrong sign!");
                     }
                 }
-
-                InetAddress clientAddress = packet.getAddress();
-                int clientPort = packet.getPort();
-
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-                objectOutputStream.writeObject(result(read.getSign(), read.getLhs(), read.getRhs(), result));
-
-                byte[] sendData = outputStream.toByteArray();
-                DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, clientAddress, clientPort);
-                socket.send(sendPacket);
+                
+                send(packet, read, result, socket);
             }
 
         } catch (final SocketException e) {
@@ -86,5 +77,18 @@ public class Server {
 
     private static String result(char sign, double num1, double num2, double result) {
         return "Result: " + num1 + " " + sign + " " + num2 + " = " + result;
+    }
+
+    private static void send(DatagramPacket packet, Numeri read, double result, DatagramSocket socket) throws IOException {
+        InetAddress clientAddress = packet.getAddress();
+        int clientPort = packet.getPort();
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+        objectOutputStream.writeObject(result(read.getSign(), read.getLhs(), read.getRhs(), result));
+
+        byte[] sendData = outputStream.toByteArray();
+        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, clientAddress, clientPort);
+        socket.send(sendPacket);
     }
 }
