@@ -41,12 +41,28 @@ public class Server {
                 System.out.println(read.getLhs() + " < " + read.getRhs());
             }
             
-            if (read.getSign() == '+') {
-                result = read.getLhs() + read.getRhs();
-                System.out.println(read.getLhs() + " + " + read.getRhs() + " = " + result);
-            } else if (read.getSign() == '-') {
-                result = read.getLhs() - read.getRhs();
-                System.out.println(read.getLhs() + " - " + read.getRhs() + " = " + result);
+            switch (read.getSign()) {
+                case '+' -> {
+                    result = read.getLhs() + read.getRhs();
+                    System.out.println(read.getLhs() + " + " + read.getRhs() + " = " + result);
+                }
+                case '-' -> {
+                    result = read.getLhs() - read.getRhs();
+                    System.out.println(read.getLhs() + " - " + read.getRhs() + " = " + result);
+                }
+                case '*' -> {
+                    result = read.getLhs() * read.getRhs();
+                    System.out.println(read.getLhs() + " * " + read.getRhs() + " = " + result);
+                }
+                case '/' -> {
+                    if (read.getRhs() != 0) {
+                        result = read.getLhs() / read.getRhs();
+                        System.out.println(read.getLhs() + " / " + read.getRhs() + " = " + result);
+                    }
+                }
+                default -> {
+                    throw new IllegalArgumentException("Wrong sign!");
+                }
             }
             
         } catch (final SocketException e) {

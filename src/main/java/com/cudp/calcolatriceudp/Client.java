@@ -21,8 +21,10 @@ public class Client {
     public static void main(String[] args) throws IOException {
         try {
             DatagramSocket socket = new DatagramSocket();
-            final Numeri data = new Numeri(-127, 100, '+'); // somma
+//            final Numeri data = new Numeri(-127, 100, '+'); // somma
 //            final Numeri data = new Numeri(-127, 100, '-'); // sottrazione
+//            final Numeri data = new Numeri(-127, 100, '/'); // divisione
+            final Numeri data = new Numeri(-127, 100, '*'); // moltiplicazione
             
             final ByteArrayOutputStream outstream = new ByteArrayOutputStream();
             new ObjectOutputStream(outstream).writeObject(data);
