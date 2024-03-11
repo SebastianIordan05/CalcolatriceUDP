@@ -12,6 +12,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 /**
  *
@@ -19,12 +20,24 @@ import java.net.UnknownHostException;
  */
 public class Client {
     public static void main(String[] args) throws IOException {
+        final Scanner sc = new Scanner(System.in);
+        
+        int num1, num2;
+        char sign;
+        
         try {
+            
+            System.out.print("num1: ");
+            num1 = sc.nextInt();
+            
+            System.out.print("sign: ");
+            sign = sc.next().charAt(0);
+            
+            System.out.print("num2: ");
+            num2 = sc.nextInt();
+            
             DatagramSocket socket = new DatagramSocket();
-//            final Numeri data = new Numeri(-127, 100, '+'); // somma
-//            final Numeri data = new Numeri(-127, 100, '-'); // sottrazione
-//            final Numeri data = new Numeri(-127, 100, '/'); // divisione
-            final Numeri data = new Numeri(-127, 100, '*'); // moltiplicazione
+            final Numeri data = new Numeri(num1, num2, sign);
             
             final ByteArrayOutputStream outstream = new ByteArrayOutputStream();
             new ObjectOutputStream(outstream).writeObject(data);
